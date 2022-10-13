@@ -4,7 +4,7 @@ import play_state
 
 image = None
 
-a=1
+a = 0
 
 def enter():
     global image
@@ -44,10 +44,12 @@ def handle_events():
                 case pico2d.SDLK_ESCAPE:
                     game_framework.pop_state()
                 case pico2d.SDLK_KP_PLUS:
+                    a += 1
                     play_state.boy.item = 'boy_plus'
-                    a+=1
                     game_framework.pop_state()
                 case pico2d.SDLK_KP_MINUS:
-                    play_state.boy.item = 'boy_minus'
-                    a-=1
-                    game_framework.pop_state()
+                    if a > 0:
+                        a -= 1
+                        play_state.boy.item = 'boy_minus'
+                        game_framework.pop_state()
+

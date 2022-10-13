@@ -36,23 +36,29 @@ class Boy:
             self.dir = 1
 
     def draw(self):
+        global temp
+        i = 0
         if self.item == 'Ball':
             self.ball_image.draw(self.x + 10, self.y + 50)
         if self.item == 'BigBall':
             self.big_ball_image.draw(self.x + 10, self.y + 50)
         if self.item == 'boy_plus':
-            if self.dir == 1:
-                self.boy_image.clip_draw(self.frame * 100, 100, 100, 100, self.x+(add_delete_state.a*20), self.y)
-            else:
-                self.boy_image.clip_draw(self.frame * 100, 0, 100, 100, self.x-(add_delete_state.a*20), self.y)
-
+            while i < add_delete_state.a:
+                i += 1
+                if self.dir == 1:
+                    self.boy_image.clip_draw(self.frame * 100, 100, 100, 100, self.x + (i * 20),
+                                             self.y)
+                else:
+                    self.boy_image.clip_draw(self.frame * 100, 0, 100, 100, self.x - (i * 20), self.y)
         if self.item == 'boy_minus':
-            if add_delete_state.a > 1:
-                add_delete_state.a -= 1
-            if self.dir == 1:
-                self.boy_image.clip_draw(self.frame * 100, 100, 100, 100, self.x+(add_delete_state.a*20), self.y)
-            else:
-                self.boy_image.clip_draw(self.frame * 100, 0, 100, 100, self.x-(add_delete_state.a*20), self.y)
+            while i < add_delete_state.a:
+                i += 1
+                if self.dir == 1:
+                    self.boy_image.clip_draw(self.frame * 100, 100, 100, 100, self.x + (i * 20),
+                                             self.y)
+                else:
+                    self.boy_image.clip_draw(self.frame * 100, 0, 100, 100, self.x - (i * 20), self.y)
+
 
         if self.dir == 1:
             self.image.clip_draw(self.frame * 100, 100, 100, 100, self.x, self.y)
