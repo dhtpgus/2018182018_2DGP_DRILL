@@ -42,11 +42,11 @@ def handle_events():
                 case pico2d.SDLK_ESCAPE:
                     game_framework.pop_state()
                 case pico2d.SDLK_0:
-                    play_state.boy.item = None
+                    play_state.set_all_boys_item(None)
                     game_framework.pop_state()
                 case pico2d.SDLK_1:
-                    play_state.boy.item = 'Ball'
+                    play_state.set_all_boys_item('Ball')
                     game_framework.pop_state()
                 case pico2d.SDLK_2:
-                    play_state.boy.item = 'BigBall'
+                    play_state.set_all_boys_item('BigBall')
                     game_framework.pop_state()

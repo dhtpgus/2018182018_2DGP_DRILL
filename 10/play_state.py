@@ -1,9 +1,10 @@
+import random
+
 from pico2d import *
 import game_framework
 import logo_state
 import item_state
-import add_delete_state
-
+import boy_adjust_state
 
 
 class Grass:
@@ -16,8 +17,8 @@ class Grass:
 
 class Boy:
     def __init__(self):
-        self.x, self.y = 0, 90
-        self.frame = 0
+        self.x, self.y = random.randint(0, 800), 90
+        self.frame = random.randint(0, 7)
         self.dir = 1  # 오른쪽
         self.image = load_image('animation_sheet.png')
         self.item = None
@@ -42,24 +43,6 @@ class Boy:
             self.ball_image.draw(self.x + 10, self.y + 50)
         if self.item == 'BigBall':
             self.big_ball_image.draw(self.x + 10, self.y + 50)
-        if self.item == 'boy_plus':
-            while i < add_delete_state.a:
-                i += 1
-                if self.dir == 1:
-                    self.boy_image.clip_draw(self.frame * 100, 100, 100, 100, self.x + (i * 20),
-                                             self.y)
-                else:
-                    self.boy_image.clip_draw(self.frame * 100, 0, 100, 100, self.x - (i * 20), self.y)
-        if self.item == 'boy_minus':
-            while i < add_delete_state.a:
-                i += 1
-                if self.dir == 1:
-                    self.boy_image.clip_draw(self.frame * 100, 100, 100, 100, self.x + (i * 20),
-                                             self.y)
-                else:
-                    self.boy_image.clip_draw(self.frame * 100, 0, 100, 100, self.x - (i * 20), self.y)
-
-
         if self.dir == 1:
             self.image.clip_draw(self.frame * 100, 100, 100, 100, self.x, self.y)
         else:
@@ -73,37 +56,41 @@ def handle_events():
         if event.type == SDL_QUIT:
             game_framework.quit()
         elif event.type == SDL_KEYDOWN:
-            if event.key == SDLK_ESCAPE:
-                game_framework.quit()
-            elif event.key == SDLK_i:
-                game_framework.push_state(item_state)
-            elif event.key == SDLK_b:
-                game_framework.push_state(add_delete_state)
-            # game_framework.change_state(logo_state)
+            match event.key:
+                case pico2d.SDLK_ESCAPE:
+                    game_framework.quit()
+                    # game_framework.change_state(title_state)
+                case pico2d.SDLK_i:
+                    game_framework.push_state(item_state)
+                case pico2d.SDLK_b:
+                    game_framework.push_state(boy_adjust_state)
 
 
-boy = None  # c로 따지믄 NULL
+boys = []  # 여러명의 소년들
 grass = None
 running = True
 
 
 # 초기화
 def enter():
-    global boy, grass, running
-    boy = Boy()
+    global grass, running
+    boys.append(Boy())
+    boys.append(Boy())
     grass = Grass()
     running = True
 
 
 # finalization code
 def exit():
-    global boy, grass
-    del boy
+    global grass
+    for boy in boys:
+        del boy
     del grass
 
 
 def update():
-    boy.update()
+    for boy in boys:
+        boy.update()
 
 
 def draw():
@@ -114,7 +101,8 @@ def draw():
 
 def draw_world():
     grass.draw()
-    boy.draw()
+    for boy in boys:
+        boy.draw()
 
 
 def pause():
@@ -123,3 +111,16 @@ def pause():
 
 def resume():
     pass
+
+
+def add_one_boy():
+    boys.append(Boy())
+
+
+def delete_one_boy():
+    if len(boys) > 1:
+        boys.pop()  # 리스트의 맨 마지막 요소를 꺼냄(pop). 즉, 제거하는 것 과 마찬가지.
+
+def set_all_boys_item(item):
+    for boy in boys:
+        boy.item = item
