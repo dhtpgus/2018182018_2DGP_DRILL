@@ -2,7 +2,7 @@ from pico2d import *
 import os
 
 open_canvas()
-os.chdir('d:/2018182018_2DGP_DRILL/07')
+os.chdir('c:/2018182018_2DGP_DRILL/07')
 
 grass = load_image('grass.png')
 character = load_image('skulrun.png')
