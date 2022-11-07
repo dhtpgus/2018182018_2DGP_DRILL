@@ -3,7 +3,6 @@ from pico2d import *
 class Grass:
     def __init__(self):
         self.image = load_image('grass.png')
-        self.image2=load_image('grass.png')
 
     def draw(self):
         self.image.draw(400, 10)
@@ -17,7 +16,6 @@ class Grass2:
 
     def draw(self):
         self.image.draw(400, 30)
-        self.image2.draw(400,40)
 
     def update(self):
         pass
